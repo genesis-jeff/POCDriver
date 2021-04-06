@@ -10,6 +10,7 @@ import org.bson.types.Binary;
 import de.svenjacobs.loremipsum.LoremIpsum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.security.SecureRandom;
 
 
 //A Test Record is a MongoDB Record Object that is self populating
@@ -72,8 +73,9 @@ public class TestRecord {
 	// A thread starting will find out what it's highest was
 
 	private void AddOID(int workerid, int sequence) {
-		Document oid = new Document("w",workerid).append("i", sequence);
-		internalDoc.append("_id", oid);
+		StringBuilder sb = new StringBuilder();
+		sb.append(generateRandomString(8)).append("-").append(UUID.randomUUID().toString()).append("-").append(generateRandomString(2));
+		internalDoc.append("_id", sb);
 	}
 
 	// Just so we always know what the type of a given field is
@@ -104,7 +106,6 @@ public class TestRecord {
 	}
 
 	TestRecord(POCTestOptions testOpts) {
-		
 		this(testOpts.numFields, testOpts.depth, testOpts.textFieldLen, testOpts.workingset, 0,
 				testOpts.NUMBER_SIZE, new int[]{testOpts.arraytop, testOpts.arraynext}, testOpts.blobSize);
 	}
@@ -207,6 +208,28 @@ public class TestRecord {
                 collectFields(node, prefix + key + ".", fields);
             }
         }
+    }
+
+    public static String generateRandomString(int length) {
+        String CHAR_LOWER = "abcdef";
+        String NUMBER = "0123456789";
+
+        String DATA_FOR_RANDOM_STRING = CHAR_LOWER + NUMBER;
+        SecureRandom random = new SecureRandom();
+
+        if (length < 1) throw new IllegalArgumentException();
+
+        StringBuilder sb = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            // 0-62 (exclusive), random returns 0-61
+            int rndCharAt = random.nextInt(DATA_FOR_RANDOM_STRING.length());
+            char rndChar = DATA_FOR_RANDOM_STRING.charAt(rndCharAt);
+
+            sb.append(rndChar);
+        }
+
+        return sb.toString();
     }
 
 }
