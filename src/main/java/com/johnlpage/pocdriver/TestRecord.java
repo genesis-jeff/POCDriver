@@ -73,9 +73,7 @@ public class TestRecord {
 	// A thread starting will find out what it's highest was
 
 	private void AddOID(int workerid, int sequence) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(generateRandomString(8)).append("-").append(UUID.randomUUID().toString()).append("-").append(generateRandomString(2));
-		internalDoc.append("_id", sb);
+		// Use default ObjectId
 	}
 
 	// Just so we always know what the type of a given field is
