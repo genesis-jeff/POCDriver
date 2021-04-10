@@ -138,6 +138,10 @@ public class TestRecord {
 		}
 
 		internalDoc.append("bin", blobData);
+                StringBuilder sb = new StringBuilder();
+                sb.append(generateRandomString(8)).append("-").append(UUID.randomUUID().toString()).append("-").append(generateRandomString(2));
+		internalDoc.append("uuid", sb.toString());
+
 	}
 
 	/**
