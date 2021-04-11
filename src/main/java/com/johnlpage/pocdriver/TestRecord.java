@@ -138,7 +138,6 @@ public class TestRecord {
 		}
 
 		internalDoc.append("bin", blobData);
-                StringBuilder sb = new StringBuilder();
 		internalDoc.append("uuid", generateRandomString(42));
 
 	}
